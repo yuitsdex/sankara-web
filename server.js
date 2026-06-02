@@ -208,3 +208,5 @@ app.post("/api/outline", (req, res) => {
 // ──────────────────────────────────────────────
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Sankara v2 running → http://localhost:${PORT}`));
+
+export default app;
