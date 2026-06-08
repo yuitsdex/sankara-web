@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="id" class="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sankara — Personal Library</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;700&display=swap"
+    rel="stylesheet" />
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -23,19 +27,28 @@
   </script>
   <style>
     :root {
-      --bg:      #0a0c0f;
+      --bg: #0a0c0f;
       --surface: #111318;
-      --border:  #1e2229;
+      --border: #1e2229;
       --border2: #2a3040;
-      --text:    #d4dae6;
-      --muted:   #5a6478;
-      --accent:  #4f9cf9;
+      --text: #d4dae6;
+      --muted: #5a6478;
+      --accent: #4f9cf9;
       --accent2: #7ec8a0;
-      --warn:    #f0a04b;
-      --danger:  #e05c5c;
+      --warn: #f0a04b;
+      --danger: #e05c5c;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -44,14 +57,24 @@
     }
 
     /* scrollbar */
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border2);
+      border-radius: 4px;
+    }
 
     /* grid bg pattern */
     body::before {
       content: '';
-      position: fixed; inset: 0;
+      position: fixed;
+      inset: 0;
       background-image:
         linear-gradient(var(--border) 1px, transparent 1px),
         linear-gradient(90deg, var(--border) 1px, transparent 1px);
@@ -61,14 +84,19 @@
       z-index: 0;
     }
 
-    .z-content { position: relative; z-index: 1; }
+    .z-content {
+      position: relative;
+      z-index: 1;
+    }
 
     /* ── NAV ── */
     nav {
-      background: rgba(10,12,15,0.85);
+      background: rgba(10, 12, 15, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 50;
+      position: sticky;
+      top: 0;
+      z-index: 50;
     }
 
     /* ── TABS ── */
@@ -86,12 +114,26 @@
       transition: all 0.2s;
       background: transparent;
     }
-    .tab-btn:hover { color: var(--text); border-color: var(--border2); }
-    .tab-btn.active { color: var(--accent); border-color: var(--accent); background: rgba(79,156,249,0.07); }
+
+    .tab-btn:hover {
+      color: var(--text);
+      border-color: var(--border2);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(79, 156, 249, 0.07);
+    }
 
     /* ── PANEL ── */
-    .panel { display: none; }
-    .panel.active { display: block; }
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
 
     /* ── FORM INPUTS ── */
     .field {
@@ -106,9 +148,24 @@
       outline: none;
       transition: border-color 0.2s;
     }
-    .field:focus { border-color: var(--accent); }
-    .field::placeholder { color: var(--muted); font-style: italic; }
-    label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 0.3rem; }
+
+    .field:focus {
+      border-color: var(--accent);
+    }
+
+    .field::placeholder {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    label {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
 
     /* ── BUTTONS ── */
     .btn-primary {
@@ -125,9 +182,19 @@
       cursor: pointer;
       transition: opacity 0.2s, transform 0.15s;
     }
-    .btn-primary:hover { opacity: 0.88; }
-    .btn-primary:active { transform: scale(0.97); }
-    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .btn-primary:hover {
+      opacity: 0.88;
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
 
     .btn-ghost {
       background: transparent;
@@ -142,7 +209,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-ghost:hover { color: var(--text); border-color: var(--muted); }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
 
     .btn-danger {
       background: transparent;
@@ -155,7 +226,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-danger:hover { border-color: var(--danger); background: rgba(224,92,92,0.07); }
+
+    .btn-danger:hover {
+      border-color: var(--danger);
+      background: rgba(224, 92, 92, 0.07);
+    }
 
     /* ── BOOK CARD ── */
     .book-card {
@@ -165,7 +240,11 @@
       padding: 1.1rem 1.25rem;
       transition: border-color 0.25s, transform 0.25s;
     }
-    .book-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .book-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
 
     /* ── PROGRESS BAR ── */
     .progress-track {
@@ -174,14 +253,24 @@
       height: 5px;
       overflow: hidden;
     }
+
     .progress-fill {
       height: 100%;
       border-radius: 99px;
       transition: width 0.6s ease;
     }
-    .fill-want   { background: var(--muted); }
-    .fill-reading { background: var(--accent); }
-    .fill-done   { background: var(--accent2); }
+
+    .fill-want {
+      background: var(--muted);
+    }
+
+    .fill-reading {
+      background: var(--accent);
+    }
+
+    .fill-done {
+      background: var(--accent2);
+    }
 
     /* ── BADGE ── */
     .badge {
@@ -192,20 +281,41 @@
       padding: 0.2rem 0.6rem;
       border-radius: 99px;
     }
-    .badge-want    { background: rgba(90,100,120,0.25); color: var(--muted); border: 1px solid var(--border2); }
-    .badge-reading { background: rgba(79,156,249,0.12); color: var(--accent); border: 1px solid rgba(79,156,249,0.3); }
-    .badge-done    { background: rgba(126,200,160,0.12); color: var(--accent2); border: 1px solid rgba(126,200,160,0.3); }
+
+    .badge-want {
+      background: rgba(90, 100, 120, 0.25);
+      color: var(--muted);
+      border: 1px solid var(--border2);
+    }
+
+    .badge-reading {
+      background: rgba(79, 156, 249, 0.12);
+      color: var(--accent);
+      border: 1px solid rgba(79, 156, 249, 0.3);
+    }
+
+    .badge-done {
+      background: rgba(126, 200, 160, 0.12);
+      color: var(--accent2);
+      border: 1px solid rgba(126, 200, 160, 0.3);
+    }
 
     /* ── SPINNER ── */
     .spinner {
-      width: 28px; height: 28px;
+      width: 28px;
+      height: 28px;
       border: 2px solid var(--border2);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 1s linear infinite;
       display: inline-block;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
 
     /* ── OUTLINE CARD ── */
     .outline-chapter {
@@ -216,19 +326,27 @@
       transform: translateX(-10px);
       transition: opacity 0.4s ease, transform 0.4s ease;
     }
-    .outline-chapter.visible { opacity: 1; transform: translateX(0); }
+
+    .outline-chapter.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
 
     /* ── MODAL BACKDROP ── */
     #modal-backdrop {
       display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.7);
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(4px);
       z-index: 200;
       align-items: center;
       justify-content: center;
     }
-    #modal-backdrop.open { display: flex; }
+
+    #modal-backdrop.open {
+      display: flex;
+    }
 
     .modal-box {
       background: var(--surface);
@@ -256,154 +374,301 @@
     }
 
     /* ── TOAST NOTIFICATION ── */
-    #toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 300; display: flex; flex-direction: column; gap: 0.5rem; }
-    .toast { background: var(--surface); border: 1px solid var(--accent); border-left: 4px solid var(--accent); color: var(--text); padding: 0.75rem 1.25rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.4); transform: translateY(20px); opacity: 0; transition: all 0.3s ease; }
-    .toast.show { transform: translateY(0); opacity: 1; }
+    #toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .toast {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-left: 4px solid var(--accent);
+      color: var(--text);
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
 
     /* FADE-UP */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    .fade-up { animation: fadeUp 0.45s ease forwards; }
+
+    .fade-up {
+      animation: fadeUp 0.45s ease forwards;
+    }
+
+    /* ── AUTH OVERLAY ── */
+    #auth-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 500;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #auth-overlay.open {
+      display: flex;
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      width: 92%;
+      max-width: 400px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .auth-tab-btn {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      cursor: pointer;
+      background: transparent;
+      transition: all 0.2s;
+    }
+
+    .auth-tab-btn.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: rgba(79, 156, 249, 0.07);
+    }
+
+    /* ── USER INFO BAR ── */
+    #user-bar {
+      display: none;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    #user-bar.show {
+      display: flex;
+    }
+
+    #user-email {
+      font-size: 0.7rem;
+      color: var(--muted);
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   </style>
 </head>
+
 <body>
 
-<!-- ── NAVBAR ── -->
-<nav class="z-content">
-  <div class="max-w-5xl mx-auto px-5 flex items-center justify-between h-14">
-    <div class="flex items-center gap-2.5">
-      <span class="font-display italic text-lg" style="color:var(--accent)">Sankara</span>
-      <span class="text-xs" style="color:var(--muted)">/ Personal Library</span>
-    </div>
-    <div class="flex gap-1.5">
-      <button class="tab-btn active" data-tab="library">📚 Library</button>
-      <button class="tab-btn" data-tab="planner">✍️ AI Planner</button>
-    </div>
-  </div>
-</nav>
-
-<main class="z-content max-w-5xl mx-auto px-5 py-8">
-
-  <!-- ══════════════ PANEL: LIBRARY ══════════════ -->
-  <div id="panel-library" class="panel active">
-
-    <!-- Header row -->
-    <div class="flex items-start justify-between gap-4 mb-7">
-      <div>
-        <h1 class="font-display text-3xl font-semibold" style="color:var(--text)">My Library</h1>
-        <p class="text-xs mt-1" style="color:var(--muted)">Track your reading progress across all books.</p>
+  <!-- ── NAVBAR ── -->
+  <nav class="z-content">
+    <div class="max-w-5xl mx-auto px-5 flex items-center justify-between h-14">
+      <div class="flex items-center gap-2.5">
+        <span class="font-display italic text-lg" style="color:var(--accent)">Sankara</span>
+        <span class="text-xs" style="color:var(--muted)">/ Personal Library</span>
       </div>
-      <button class="btn-primary" id="open-add-modal">+ Add Book</button>
-    </div>
-
-    <!-- Stats row -->
-    <div class="grid grid-cols-3 gap-3 mb-6" id="stats-row">
-      <div class="stat-pill">
-        <div class="font-display text-2xl font-semibold" id="stat-total" style="color:var(--text)">0</div>
-        <div class="text-xs mt-0.5" style="color:var(--muted)">Total Books</div>
-      </div>
-      <div class="stat-pill">
-        <div class="font-display text-2xl font-semibold" id="stat-reading" style="color:var(--accent)">0</div>
-        <div class="text-xs mt-0.5" style="color:var(--muted)">Reading</div>
-      </div>
-      <div class="stat-pill">
-        <div class="font-display text-2xl font-semibold" id="stat-done" style="color:var(--accent2)">0</div>
-        <div class="text-xs mt-0.5" style="color:var(--muted)">Finished</div>
-      </div>
-    </div>
-
-    <!-- Search Bar (FITUR BARU) -->
-    <div class="mb-5">
-      <input id="search-book" class="field" type="text" placeholder="🔍 Cari judul buku atau penulis..." />
-    </div>
-
-    <!-- Book list -->
-    <div id="book-list">
-      <div class="empty-state">
-        <div class="text-4xl mb-3">📖</div>
-        <p class="text-sm">Perpustakaanmu masih kosong.</p>
-        <p class="text-xs mt-1" style="color:var(--muted)">Tambahkan buku pertamamu!</p>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ══════════════ PANEL: AI PLANNER ══════════════ -->
-  <div id="panel-planner" class="panel">
-
-    <div class="mb-7">
-      <h1 class="font-display text-3xl font-semibold" style="color:var(--text)">AI Book Planner</h1>
-      <p class="text-xs mt-1" style="color:var(--muted)">Masukkan topik atau judul buku yang ingin kamu tulis.</p>
-    </div>
-
-    <!-- Input area -->
-    <div class="flex gap-3 mb-8" style="max-width:600px">
-      <div class="flex-1">
-        <input id="outline-topic" class="field" type="text" placeholder="cth: Perjalanan Startup di Indonesia…" maxlength="120" />
-      </div>
-      <button class="btn-primary" id="gen-outline-btn" style="white-space:nowrap">Generate Outline</button>
-    </div>
-
-    <!-- Loading -->
-    <div id="outline-loading" class="hidden flex items-center gap-3 mb-6">
-      <div class="spinner"></div>
-      <span class="text-sm" style="color:var(--muted)">AI sedang menyusun outline…</span>
-    </div>
-
-    <!-- Error -->
-    <div id="outline-error" class="hidden text-sm mb-4" style="color:var(--danger)"></div>
-
-    <!-- Result -->
-    <div id="outline-result" class="hidden" style="max-width:640px">
-      <div class="flex items-center gap-3 mb-5">
-        <div class="flex-1 h-px" style="background:var(--border2)"></div>
-        <span id="outline-topic-label" class="text-xs uppercase tracking-widest" style="color:var(--accent)"></span>
-        <div class="flex-1 h-px" style="background:var(--border2)"></div>
-      </div>
-      <div id="outline-chapters"></div>
-      <p class="text-xs mt-6" style="color:var(--muted)">
-        💡 Outline ini dihasilkan berdasarkan kata kunci topikmu. Kamu bisa menyimpannya ke library sebagai proyek buku!
-      </p>
-    </div>
-
-  </div>
-
-</main>
-
-<!-- ══════════════ MODAL: ADD / EDIT BOOK ══════════════ -->
-<div id="modal-backdrop">
-  <div class="modal-box fade-up">
-    <h2 class="font-display text-xl font-semibold mb-5" id="modal-title" style="color:var(--text)">Tambah Buku</h2>
-    <div class="flex flex-col gap-4">
-      <div>
-        <label>Judul Buku</label>
-        <input id="f-title" class="field" type="text" placeholder="Nama judul buku…" />
-      </div>
-      <div>
-        <label>Penulis</label>
-        <input id="f-author" class="field" type="text" placeholder="Nama penulis…" />
-      </div>
-      <div class="grid grid-cols-2 gap-3">
-        <div>
-          <label>Total Halaman</label>
-          <input id="f-total" class="field" type="number" min="1" placeholder="300" />
+      <div class="flex items-center gap-3">
+        <div class="flex gap-1.5" id="nav-tabs">
+          <button class="tab-btn active" data-tab="library">📚 Library</button>
+          <button class="tab-btn" data-tab="planner">✍️ AI Planner</button>
         </div>
-        <div>
-          <label>Halaman Dibaca</label>
-          <input id="f-read" class="field" type="number" min="0" placeholder="0" />
+        <div id="user-bar">
+          <span id="user-email"></span>
+          <button class="btn-ghost" id="signout-btn" style="font-size:0.65rem;padding:0.35rem 0.7rem">Sign Out</button>
         </div>
       </div>
-      <div id="modal-error" class="hidden text-xs" style="color:var(--danger)"></div>
     </div>
-    <div class="flex justify-end gap-2 mt-6">
-      <button class="btn-ghost" id="close-modal">Batal</button>
-      <button class="btn-primary" id="save-book-btn">Simpan</button>
+  </nav>
+
+  <main class="z-content max-w-5xl mx-auto px-5 py-8">
+
+    <!-- ══════════════ PANEL: LIBRARY ══════════════ -->
+    <div id="panel-library" class="panel active">
+
+      <!-- Header row -->
+      <div class="flex items-start justify-between gap-4 mb-7">
+        <div>
+          <h1 class="font-display text-3xl font-semibold" style="color:var(--text)">My Library</h1>
+          <p class="text-xs mt-1" style="color:var(--muted)">Track your reading progress across all books.</p>
+        </div>
+        <button class="btn-primary" id="open-add-modal">+ Add Book</button>
+      </div>
+
+      <!-- Stats row -->
+      <div class="grid grid-cols-3 gap-3 mb-6" id="stats-row">
+        <div class="stat-pill">
+          <div class="font-display text-2xl font-semibold" id="stat-total" style="color:var(--text)">0</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted)">Total Books</div>
+        </div>
+        <div class="stat-pill">
+          <div class="font-display text-2xl font-semibold" id="stat-reading" style="color:var(--accent)">0</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted)">Reading</div>
+        </div>
+        <div class="stat-pill">
+          <div class="font-display text-2xl font-semibold" id="stat-done" style="color:var(--accent2)">0</div>
+          <div class="text-xs mt-0.5" style="color:var(--muted)">Finished</div>
+        </div>
+      </div>
+
+      <!-- Search Bar (FITUR BARU) -->
+      <div class="mb-5">
+        <input id="search-book" class="field" type="text" placeholder="🔍 Cari judul buku atau penulis..." />
+      </div>
+
+      <!-- Book list -->
+      <div id="book-list">
+        <div class="empty-state">
+          <div class="text-4xl mb-3">📖</div>
+          <p class="text-sm">Perpustakaanmu masih kosong.</p>
+          <p class="text-xs mt-1" style="color:var(--muted)">Tambahkan buku pertamamu!</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══════════════ PANEL: AI PLANNER ══════════════ -->
+    <div id="panel-planner" class="panel">
+
+      <div class="mb-7">
+        <h1 class="font-display text-3xl font-semibold" style="color:var(--text)">AI Book Planner</h1>
+        <p class="text-xs mt-1" style="color:var(--muted)">Masukkan topik atau judul buku yang ingin kamu tulis.</p>
+      </div>
+
+      <!-- Input area -->
+      <div class="flex gap-3 mb-8" style="max-width:600px">
+        <div class="flex-1">
+          <input id="outline-topic" class="field" type="text" placeholder="cth: Perjalanan Startup di Indonesia…"
+            maxlength="120" />
+        </div>
+        <button class="btn-primary" id="gen-outline-btn" style="white-space:nowrap">Generate Outline</button>
+      </div>
+
+      <!-- Loading -->
+      <div id="outline-loading" class="hidden flex items-center gap-3 mb-6">
+        <div class="spinner"></div>
+        <span class="text-sm" style="color:var(--muted)">AI sedang menyusun outline…</span>
+      </div>
+
+      <!-- Error -->
+      <div id="outline-error" class="hidden text-sm mb-4" style="color:var(--danger)"></div>
+
+      <!-- Result -->
+      <div id="outline-result" class="hidden" style="max-width:640px">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex-1 h-px" style="background:var(--border2)"></div>
+          <span id="outline-topic-label" class="text-xs uppercase tracking-widest" style="color:var(--accent)"></span>
+          <div class="flex-1 h-px" style="background:var(--border2)"></div>
+        </div>
+        <div id="outline-chapters"></div>
+        <p class="text-xs mt-6" style="color:var(--muted)">
+          💡 Outline ini dihasilkan berdasarkan kata kunci topikmu. Kamu bisa menyimpannya ke library sebagai proyek
+          buku!
+        </p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ══════════════ AUTH OVERLAY ══════════════ -->
+  <div id="auth-overlay">
+    <div class="auth-card fade-up">
+      <!-- Logo -->
+      <div class="text-center mb-6">
+        <span class="font-display italic text-2xl" style="color:var(--accent)">Sankara</span>
+        <p class="text-xs mt-1" style="color:var(--muted)">Your personal reading companion</p>
+      </div>
+
+      <!-- Auth Tabs -->
+      <div class="flex gap-2 mb-6">
+        <button class="auth-tab-btn active" id="auth-tab-login">Sign In</button>
+        <button class="auth-tab-btn" id="auth-tab-register">Register</button>
+      </div>
+
+      <!-- Form -->
+      <div class="flex flex-col gap-4">
+        <div>
+          <label>Email</label>
+          <input id="auth-email" class="field" type="email" placeholder="nama@email.com" autocomplete="email" />
+        </div>
+        <div>
+          <label>Password</label>
+          <input id="auth-password" class="field" type="password" placeholder="Minimal 6 karakter"
+            autocomplete="current-password" />
+        </div>
+        <div id="auth-error" class="hidden text-xs" style="color:var(--danger)"></div>
+        <button class="btn-primary" id="auth-submit-btn" style="width:100%">Sign In</button>
+        <p id="auth-success-msg" class="hidden text-xs text-center" style="color:var(--accent2)"></p>
+      </div>
+
+      <p class="text-center text-xs mt-5" style="color:var(--muted)">Data buku Anda disimpan aman di Supabase ☁️</p>
     </div>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <!-- ══════════════ MODAL: ADD / EDIT BOOK ══════════════ -->
+  <div id="modal-backdrop">
+    <div class="modal-box fade-up">
+      <h2 class="font-display text-xl font-semibold mb-5" id="modal-title" style="color:var(--text)">Tambah Buku</h2>
+      <div class="flex flex-col gap-4">
+        <div>
+          <label>Judul Buku</label>
+          <input id="f-title" class="field" type="text" placeholder="Nama judul buku…" />
+        </div>
+        <div>
+          <label>Penulis</label>
+          <input id="f-author" class="field" type="text" placeholder="Nama penulis…" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label>Total Halaman</label>
+            <input id="f-total" class="field" type="number" min="1" placeholder="300" />
+          </div>
+          <div>
+            <label>Halaman Dibaca</label>
+            <input id="f-read" class="field" type="number" min="0" placeholder="0" />
+          </div>
+        </div>
+        <div id="modal-error" class="hidden text-xs" style="color:var(--danger)"></div>
+      </div>
+      <div class="flex justify-end gap-2 mt-6">
+        <button class="btn-ghost" id="close-modal">Batal</button>
+        <button class="btn-primary" id="save-book-btn">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
+
 </html>

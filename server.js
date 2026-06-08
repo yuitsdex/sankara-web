@@ -10,12 +10,11 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 // ──────────────────────────────────────────────
-// IN-MEMORY DATABASE
+// CATATAN: CRUD buku telah dipindahkan ke Supabase (client-side).
+// Server ini hanya melayani Mock AI Outline Generator.
 // ──────────────────────────────────────────────
-let books = [];
-let nextId = 1;
 
-// ──────────────────────────────────────────────d
+// ──────────────────────────────────────────────
 // MOCK AI OUTLINE TEMPLATES (8 Kategori)
 // ──────────────────────────────────────────────
 const OUTLINE_TEMPLATES = [
@@ -110,81 +109,7 @@ function pickTemplate(topic) {
   return match || getDynamicFallback(topic);
 }
 
-// ──────────────────────────────────────────────
-// HELPER: derive status
-// ──────────────────────────────────────────────
-function deriveStatus(read, total) {
-  if (read === 0) return "Want to Read";
-  if (read >= total) return "Finished";
-  return "Reading";
-}
 
-// ──────────────────────────────────────────────
-// ROUTES: LIBRARY CRUD
-// ──────────────────────────────────────────────
-
-// GET all books
-app.get("/api/books", (req, res) => {
-  res.json(books);
-});
-
-// POST add book
-app.post("/api/books", (req, res) => {
-  const { title, author, totalPages, pagesRead } = req.body;
-  if (!title || !author || totalPages == null || pagesRead == null) {
-    return res.status(400).json({ error: "Semua field wajib diisi." });
-  }
-  const total = parseInt(totalPages, 10);
-  const read = parseInt(pagesRead, 10);
-  if (isNaN(total) || isNaN(read) || total < 1 || read < 0 || read > total) {
-    return res.status(400).json({ error: "Nilai halaman tidak valid." });
-  }
-  const book = {
-    id: nextId++,
-    title: title.trim(),
-    author: author.trim(),
-    totalPages: total,
-    pagesRead: read,
-    status: deriveStatus(read, total),
-    progress: Math.round((read / total) * 100),
-    addedAt: new Date().toISOString(),
-  };
-  books.push(book);
-  res.status(201).json(book);
-});
-
-// PUT update book
-app.put("/api/books/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const idx = books.findIndex((b) => b.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Buku tidak ditemukan." });
-
-  const { title, author, totalPages, pagesRead } = req.body;
-  const total = parseInt(totalPages, 10);
-  const read = parseInt(pagesRead, 10);
-  if (!title || !author || isNaN(total) || isNaN(read) || total < 1 || read < 0 || read > total) {
-    return res.status(400).json({ error: "Data tidak valid." });
-  }
-  books[idx] = {
-    ...books[idx],
-    title: title.trim(),
-    author: author.trim(),
-    totalPages: total,
-    pagesRead: read,
-    status: deriveStatus(read, total),
-    progress: Math.round((read / total) * 100),
-  };
-  res.json(books[idx]);
-});
-
-// DELETE book
-app.delete("/api/books/:id", (req, res) => {
-  const id = parseInt(req.params.id, 10);
-  const before = books.length;
-  books = books.filter((b) => b.id !== id);
-  if (books.length === before) return res.status(404).json({ error: "Buku tidak ditemukan." });
-  res.json({ success: true });
-});
 
 // ──────────────────────────────────────────────
 // ROUTE: MOCK AI OUTLINE GENERATOR
